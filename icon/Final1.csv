@@ -1,0 +1,12 @@
+duration,year,App,Tool,Sensor,File
+10,2020,volume,New Surface
+20,2020,volume,Calculate
+30,2020,volume,,gps 60
+20,2020,volume,,icr80
+24,2020,Measure,Shift
+20,2020,Measure,Reference
+12,2020,Measure,,gps 60
+28,2020,Measure,,icr 70
+21,2020,Import,,,Dxf
+30,2020,Import,,,Txt
+35,2020,Import,,,Csv

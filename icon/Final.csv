@@ -1,0 +1,13 @@
+duration,year,Col1,val1,col2,val2
+10,2019,App,volume,Tool,New Surface
+20,2019,App,volume,Tool,New Surface
+20,2020,App,volume,Tool,Calculate
+30,2020,App,volume,Sensor,gps 60
+20,2020,App,volume,Sensor,icr80
+24,2020,App,Measure,Tool,Shift
+20,2020,App,Measure,Tool,Reference
+12,2020,App,Measure,Sensor,gps 60
+28,2020,App,Measure,Sensor,icr 70
+21,2018,App,Import,File,Dxf
+30,2018,App,Import,File,Txt
+35,2018,App,Import,File,Csv
