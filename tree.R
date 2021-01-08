@@ -108,7 +108,7 @@ server <- shinyServer(function(input, output, session) {
     red.bold.italic.text <- element_text(face = "bold.italic", color = "red", size = 20)
     blue.bold.italic.16.text <- element_text(face = "bold.italic", color = "blue", size = 16)
     ggplot(dt) + 
-      geom_col(aes_string(x=targetX,y=firstColNames,fill=input$selectgroup)) +
+      geom_col(aes_string(x=targetX,y=firstColNames,fill=input$selectgroup)) + labs(x= rowX) +
       theme(title = red.bold.italic.text, axis.title = red.bold.italic.text,  axis.text.x = blue.bold.italic.16.text)+
       ggtitle("Result")
     }) 
