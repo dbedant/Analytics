@@ -93,6 +93,8 @@ ReadLogFile <- function() {
       if(bFirst)
       {
         bFirst = FALSE
+        tempData <- str_split(linn[i], ",",simplify = TRUE)
+        newHeaderName[1] = tempData[1]
       }
       else
       {
@@ -141,7 +143,7 @@ ApplyYear <- function(input, dtTree, bRemoveYear = TRUE) {
  
   if(bRemoveYear)
   {
-    dtTree <- dtTree[, colnames(dtTree) != "duration"]
+    dtTree <- dtTree[, colnames(dtTree) != firstColNames]
     dtTree <- dtTree[, colnames(dtTree) != "year"]
   }
   emptyCol = list()

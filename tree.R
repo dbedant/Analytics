@@ -7,7 +7,7 @@ source("calculate.R")
 source("server.R")
 #--------------------------Read files------------------------------------------
 tMatrix <- ReadLogFile()
-
+firstColNames <- names(tMatrix)[1]
 maxValue = 0
 minValue = 5000
 for(input in as.integer(tMatrix[,2]))
@@ -100,7 +100,7 @@ server <- shinyServer(function(input, output, session) {
     red.bold.italic.text <- element_text(face = "bold.italic", color = "red", size = 20)
     blue.bold.italic.16.text <- element_text(face = "bold.italic", color = "blue", size = 16)
     ggplot(dt) + 
-      geom_col(aes_string(x=rowX,y="duration",fill=input$selectgroup)) +
+      geom_col(aes_string(x=rowX,y=firstColNames,fill=input$selectgroup)) +
       theme(title = red.bold.italic.text, axis.title = red.bold.italic.text,  axis.text.x = blue.bold.italic.16.text)+
       ggtitle("Result")
     }) 
