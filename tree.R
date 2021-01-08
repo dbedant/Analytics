@@ -26,7 +26,8 @@ ui <- fluidPage(
 	sidebarPanel(width = 3,
                  shinyTree("tree1234", checkbox = TRUE, search=TRUE, searchtime = 1000),
       uiOutput("checkGroup"),
-      uiOutput("filterGroup")
+      uiOutput("filterGroup"),
+      checkboxInput("checkbox1", label = "Filter By Year", value = TRUE)
      ),
 	mainPanel(plotOutput("plot2"))
 )
@@ -95,12 +96,17 @@ server <- shinyServer(function(input, output, session) {
       dt <- filterTable
     
     rowX <- GetSelectedCol(input, inputList)
-    #dt$tempx <- paste(dt$get(rowX), dt$year)
-    View(dt)
+    targetX <- rowX
+    if(input$checkbox1 == TRUE)
+    {
+      dt <- mutate(dt, tempx = paste(year, get(rowX)))
+      targetX <- "tempx"
+    }
+    
     red.bold.italic.text <- element_text(face = "bold.italic", color = "red", size = 20)
     blue.bold.italic.16.text <- element_text(face = "bold.italic", color = "blue", size = 16)
     ggplot(dt) + 
-      geom_col(aes_string(x=rowX,y=firstColNames,fill=input$selectgroup)) +
+      geom_col(aes_string(x=targetX,y=firstColNames,fill=input$selectgroup)) +
       theme(title = red.bold.italic.text, axis.title = red.bold.italic.text,  axis.text.x = blue.bold.italic.16.text)+
       ggtitle("Result")
     }) 
