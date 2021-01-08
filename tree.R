@@ -81,7 +81,8 @@ server <- shinyServer(function(input, output, session) {
     else if(input$selectgroup==""){
       return(NULL)
     }
-    dt <- ParseTable(tMatrix, input, GetTreeList(ApplyYear(input, tMatrix, TRUE)), FALSE)
+    inputList <- GetTreeList(ApplyYear(input, tMatrix, TRUE))
+    dt <- ParseTable(tMatrix, input, inputList, FALSE)
     dt <- dt %>% filter(get(input$selectgroup) != "")
     
     filterTable <- data.frame()
@@ -92,11 +93,14 @@ server <- shinyServer(function(input, output, session) {
     }
     if(length(input$selectgroup1) > 0)
       dt <- filterTable
-    #View(dt)
+    
+    rowX <- GetSelectedCol(input, inputList)
+    #dt$tempx <- paste(dt$get(rowX), dt$year)
+    View(dt)
     red.bold.italic.text <- element_text(face = "bold.italic", color = "red", size = 20)
     blue.bold.italic.16.text <- element_text(face = "bold.italic", color = "blue", size = 16)
     ggplot(dt) + 
-      geom_col(aes_string(x="App",y="duration",fill=input$selectgroup)) +
+      geom_col(aes_string(x=rowX,y="duration",fill=input$selectgroup)) +
       theme(title = red.bold.italic.text, axis.title = red.bold.italic.text,  axis.text.x = blue.bold.italic.16.text)+
       ggtitle("Result")
     }) 

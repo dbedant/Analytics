@@ -1,8 +1,24 @@
+GetSelectedCol <- function(input, finalList) {
+  tHeaderList <- as.list(names(finalList))
+  selectTreeNames <- get_selected(input$tree1234)
+  index <- 1
+  for(treeGroup in finalList){
+    for ( i in treeGroup)
+    {
+      if(i %in% selectTreeNames){
+        return(tHeaderList[[index]])
+      }
+    }
+    index <- index + 1 
+  }
+  ""
+}
 #--------------------------Filter table-------------
 ParseTable <- function(dtTree,input, finalList1, bRemove = TRUE) {
   
   filterTable <- data.frame()
   tHeaderList <- as.list(names(finalList1))
+  
   index <- 1
   selectList <- list()
   for(treeGroup in finalList1){
@@ -21,7 +37,6 @@ ParseTable <- function(dtTree,input, finalList1, bRemove = TRUE) {
     }
     index <- index + 1 
   }
- 
   if(!bRemove)
   {
     return(filterTable)
@@ -61,53 +76,57 @@ GetTreeList <- function(dtTree) {
 
 #-----------------------------------Read-------------------
 ReadLogFile <- function() {
-  conn <- file("icon/Final.csv",open="r")
-  linn <- readLines(conn) 
-  bFirst <- TRUE
+  fileList =list.files(path = "icon/", pattern = NULL, all.files = FALSE,
+                       full.names = TRUE, recursive = FALSE,
+                       ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
+  
   tMatrix <- matrix(,nrow = 0, ncol=0)
   tMatrix <- cbind(tMatrix, c("")) 
   tMatrix <- cbind(tMatrix, c("")) 
   
   newHeaderName = list("duration", "year")
-  
-  for (i in 1:length(linn)){
-    if(bFirst)
-    {
-      bFirst = FALSE
-      hedaerNames <- str_split(linn[i], ",",simplify = TRUE)
-    }
-    else
-    {
-      tempData <- str_split(linn[i], ",",simplify = TRUE)
-      lastIndex <- 2
-      tempList <- list()
-      for (index in 1:length(newHeaderName)){
-        tempList <- append(tempList, "")
+  for ( fileName in fileList) {
+    conn <- file(fileName, open="r")
+    linn <- readLines(conn) 
+    bFirst <- TRUE
+    for (i in 1:length(linn)){
+      if(bFirst)
+      {
+        bFirst = FALSE
       }
-      for (index in 1:length(tempData)){
-        if(index == 1)
-        {
-          tempList[1] <- tempData[index]
+      else
+      {
+        tempData <- str_split(linn[i], ",",simplify = TRUE)
+        lastIndex <- 2
+        tempList <- list()
+        for (index in 1:length(newHeaderName)){
+          tempList <- append(tempList, "")
         }
-        else
-        {
-          if(index %% 2 == 0)
+        for (index in 1:length(tempData)){
+          if(index == 1)
           {
-            tempList[lastIndex] <- tempData[index]
+            tempList[1] <- tempData[index]
           }
           else
           {
-            lastIndex <- match( tempData[index], newHeaderName, nomatch = 0)
-            if(lastIndex == 0)
+            if(index %% 2 == 0)
             {
-              tMatrix <- cbind(tMatrix, c(""))
-              newHeaderName <- append(newHeaderName, tempData[index])
+              tempList[lastIndex] <- tempData[index]
             }
-            lastIndex <- match( tempData[index], newHeaderName, nomatch = 0)
+            else
+            {
+              lastIndex <- match( tempData[index], newHeaderName, nomatch = 0)
+              if(lastIndex == 0)
+              {
+                tMatrix <- cbind(tMatrix, c(""))
+                newHeaderName <- append(newHeaderName, tempData[index])
+              }
+              lastIndex <- match( tempData[index], newHeaderName, nomatch = 0)
+            }
           }
         }
+        tMatrix <- rbind(tMatrix, unlist(tempList)) 
       }
-      tMatrix <- rbind(tMatrix, unlist(tempList)) 
     }
   }
   colnames(tMatrix) <- newHeaderName
