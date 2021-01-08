@@ -7,6 +7,7 @@ source("calculate.R")
 source("server.R")
 #--------------------------Read files------------------------------------------
 tMatrix <- ReadLogFile()
+tMatrix$Duration <- as.numeric(as.character(tMatrix$Duration))
 firstColNames <- names(tMatrix)[1]
 maxValue = 0
 minValue = 5000
@@ -85,7 +86,6 @@ server <- shinyServer(function(input, output, session) {
     inputList <- GetTreeList(ApplyYear(input, tMatrix, TRUE))
     dt <- ParseTable(tMatrix, input, inputList, FALSE)
     dt <- dt %>% filter(get(input$selectgroup) != "")
-    
     filterTable <- data.frame()
     for(dat in input$selectgroup1)
     {
@@ -102,6 +102,8 @@ server <- shinyServer(function(input, output, session) {
       dt <- mutate(dt, tempx = paste(year, get(rowX)))
       targetX <- "tempx"
     }
+    
+    dt <- data.frame(dt)
     
     red.bold.italic.text <- element_text(face = "bold.italic", color = "red", size = 20)
     blue.bold.italic.16.text <- element_text(face = "bold.italic", color = "blue", size = 16)

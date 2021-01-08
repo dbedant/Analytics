@@ -76,7 +76,7 @@ GetTreeList <- function(dtTree) {
 
 #-----------------------------------Read-------------------
 ReadLogFile <- function() {
-  fileList =list.files(path = "covid/", pattern = NULL, all.files = FALSE,
+  fileList =list.files(path = "icon/", pattern = NULL, all.files = FALSE,
                        full.names = TRUE, recursive = FALSE,
                        ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
   
