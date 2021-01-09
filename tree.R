@@ -28,7 +28,7 @@ ui <- fluidPage(
                  shinyTree("tree1234", checkbox = TRUE, search=TRUE, searchtime = 1000),
       uiOutput("checkGroup"),
       uiOutput("filterGroup"),
-      checkboxInput("checkbox1", label = "Filter By Year", value = TRUE)
+      checkboxInput("checkbox1", label = "Filter By Year", value = FALSE)
      ),
 	mainPanel(plotOutput("plot2"))
 )
