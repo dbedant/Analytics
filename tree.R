@@ -7,8 +7,15 @@ source("calculate.R")
 source("server.R")
 #--------------------------Read files------------------------------------------
 tMatrix <- ReadLogFile()
-tMatrix$Duration <- as.numeric(as.character(tMatrix$Duration))
 firstColNames <- names(tMatrix)[1]
+if(firstColNames[1][1] == "Duration")
+{
+  tMatrix$Duration <- as.numeric(as.character(tMatrix$Duration))
+}else
+{
+  tMatrix$No.of.cases <- as.numeric(as.character(tMatrix$No.of.cases))
+}
+
 maxValue = 0
 minValue = 5000
 for(input in as.integer(tMatrix[,2]))
